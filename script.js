@@ -5,6 +5,7 @@ const btn=document.querySelector("form button");
 const fromCurr=document.querySelector(".from select");
 const toCurr=document.querySelector(".to select");
 const msg=document.querySelector(".msg");
+const swap=document.querySelector("i");
 
 for(let select of dropdowns){
     for(currCode in countryList){
@@ -25,8 +26,8 @@ for(let select of dropdowns){
 
 const updateFlag=(element)=>{
     let currCode=element.value;
-    let countyCode=countryList[currCode];
-    let newSrc=`https://flagsapi.com/${countyCode}/flat/64.png`;
+    let countryCode=countryList[currCode];
+    let newSrc=`https://flagsapi.com/${countryCode}/flat/64.png`;
     let img=element.parentElement.querySelector("img");
     img.src=newSrc;
 }
@@ -45,4 +46,14 @@ btn.addEventListener("click",async (evt)=>{
     let rate=data[fromCurr.value.toLowerCase()][toCurr.value.toLowerCase()];
     let finalAmount=amountValue*rate;
     msg.innerText=`${amountValue}${fromCurr.value} = ${finalAmount}${toCurr.value}`;
+})
+
+swap.addEventListener("click",(evt)=>{
+    evt.preventDefault();
+    let temporary=fromCurr.value;
+    fromCurr.value=toCurr.value;
+    toCurr.value=temporary;
+    updateFlag(fromCurr);
+    updateFlag(toCurr);
+    btn.click();
 })
